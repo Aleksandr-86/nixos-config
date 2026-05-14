@@ -1,7 +1,3 @@
-# Edit this configuration file to define what should be installed on
-# your system. Help is available in the configuration.nix(5) man page, on
-# https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
-
 { config, lib, pkgs, ... }:
 
 {
@@ -11,13 +7,13 @@
       ./submodules/extra.nix
     ];
 
-# Включение диспетчера загрузки systemd-boot
+# Диспетчер загрузки systemd-boot
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "nixos";
 
-# Включение службы управления сетевыми подключениями
+# Служба управления сетевыми подключениями
   networking.networkmanager.enable = true;
 
 # Настройка часового пояса
@@ -27,7 +23,7 @@
 # networking.proxy.default = "http://user:password@proxy:port/";
 # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
-# Региональная настройка
+# Локаль по умолчанию
   i18n.defaultLocale = "ru_RU.UTF-8";
 
 # Дополнительные локали (для программ, требующих английскую локаль)
@@ -41,11 +37,11 @@
     LC_COLLATE = "en_US.UTF-8";    
 # Сообщения
     LC_MESSAGES = "ru_RU.UTF-8";  
-# Дата/время
+# Дата и время
     LC_TIME = "ru_RU.UTF-8";       
-# Числа - русский формат (запятая как разделитель)
+# Числа (запятая как разделитель)
     LC_NUMERIC = "ru_RU.UTF-8";    
-# Формат бумаги - русский формат (А4)
+# Формат бумаги А4
     LC_PAPER = "ru_RU.UTF-8";      
   };
 
@@ -55,34 +51,34 @@
 # useXkbConfig = true; 
   };
 
-# Включение диспетчера отображения
+# Диспетчер отображения
   services.displayManager.ly.enable = true;
 
-# Включение и настройка сервера отображения X11
+# Сервер отображения X11
   services.xserver = {
     enable = true;
     autoRepeatDelay = 300;
     autoRepeatInterval = 35;
-# Включение диспетчера окон
+# Диспетчер окон
     windowManager.qtile.enable = true; 
-# Установка раскладок клавиатур
+# Раскладки клавиатуры
     xkb.layout = "us,ru"; 
-# Настройка комбинации клавиш для переключения раскладок клавиатур и замена местами клавиш Escape и Caps Lock
+# Комбинации клавиш для переключения раскладки клавиатур; замена местами клавиш Escape и Caps Lock
     xkb.options = "grp:alt_shift_toggle, caps:swapescape";
   };
 
-# Включение службы печати
+# Служба печати
 # services.printing.enable = true;
 
 # Отключение звукового сервера PulseAudio
   services.pulseaudio.enable = false;
-# Включение службы RealtimeKit (повышает приоритет аудиопроцессов для уменьшения задержек)
+# Служба RealtimeKit (повышает приоритет аудиопроцессов для уменьшения задержек)
   security.rtkit.enable = true;
 
-# Включение и настройка мультимедийного сервера PipeWire 
+# Мультимедийный сервер PipeWire 
   services.pipewire = {
     enable = true;
-# Включение поддержки ALSA (низкоуровневый доступ к аудиоустройствам)
+# Поддержки ALSA (низкоуровневый доступ к аудиоустройствам)
     alsa.enable = true;
 # Обеспечение совместимости с 32-битными приложениями
     alsa.support32Bit = true;
@@ -92,10 +88,10 @@
     jack.enable = true;
   };
 
-# Enable touchpad support (enabled default in most desktopManager).
+# Сенсорные устройства
 # services.libinput.enable = true;
 
-# Define a user account. Don't forget to set a password with ‘passwd’.
+# Учётная запись
   users.users.aleks = {
     isNormalUser = true;
     extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
@@ -106,82 +102,56 @@
 
   programs.firefox.enable = true;
 
-  programs.thunar.enable = true; # включение файлового менеджера
-# programs.xfconf.enable = true; # сохранение настроек менеджера
+# Файловый менеджер
+  programs.thunar.enable = true;
+# Система хранения настроек рабочего стола 
+# programs.xfconf.enable = true;
 
-    services.udisks2.enable = true;
+  services.udisks2.enable = true;
 
-#  автоматическое монтирование съёмных носителей
-#  services.udiskie = {
-#    enable = true;
-#    settings = {
-#      program_options = {
-#        file_manager = "${pkgs.thunar}/bin/thunar";
-#      };
-#    };
-#  };
-
-# List packages installed in system profile.
-# You can use https://search.nixos.org/ to find more packages (and options).
+# Глобальный список пакетов (https://search.nixos.org)
   environment.systemPackages = with pkgs; [
     vim 
       wget
       alacritty
   ];
 
+# Псевонимы команд
   environment.shellAliases = {
     rebuild = "sudo nixos-rebuild switch --flake ~/nixos-dotfiles#nixos";
   };
 
+# Шрифты
   fonts.packages = with pkgs; [
     fira-code
   ];
 
+# Экспериментальные функции системы управления пакетами
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-# Some programs need SUID wrappers, can be configured further or are
-# started in user sessions.
-# programs.mtr.enable = true;
+# Сетевая диагностика
+  programs.mtr.enable = true;
+
+# GNU Privacy Guard
 # programs.gnupg.agent = {
 #   enable = true;
 #   enableSSHSupport = true;
 # };
 
-# List services that you want to enable:
-
-# Enable the OpenSSH daemon.
+# Сервер OpenSSH
 # services.openssh.enable = true;
 
-# Open ports in the firewall.
+# Списки портов, открытых для входящих подключений
 # networking.firewall.allowedTCPPorts = [ ... ];
 # networking.firewall.allowedUDPPorts = [ ... ];
-# Or disable the firewall altogether.
+# Отключение межсетевого экрана 
 # networking.firewall.enable = false;
 
+# Подсистема Linux, обеспечивающая фильтрацию и классификацию сетевых пакетов
   networking.nftables.enable = true; 
 
-# Copy the NixOS configuration file and link it from the resulting system
-# (/run/current-system/configuration.nix). This is useful in case you
-# accidentally delete configuration.nix.
-# system.copySystemConfiguration = true;
 
-# This option defines the first version of NixOS you have installed on this particular machine,
-# and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.
-#
-# Most users should NEVER change this value after the initial install, for any reason,
-# even if you've upgraded your system to a new NixOS release.
-#
-# This value does NOT affect the Nixpkgs version your packages and OS are pulled from,
-# so changing it will NOT upgrade your system - see https://nixos.org/manual/nixos/stable/#sec-upgrading for how
-# to actually do that.
-#
-# This value being lower than the current NixOS release does NOT mean your system is
-# out of date, out of support, or vulnerable.
-#
-# Do NOT change this value unless you have manually inspected all the changes it would make to your configuration,
-# and migrated your data accordingly.
-#
-# For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
-  system.stateVersion = "25.11"; # Did you read the comment?
+# Номер первой установленной версии NixOS только для чтения
+  system.stateVersion = "25.11";
 }
 
