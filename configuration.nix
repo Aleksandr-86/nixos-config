@@ -4,6 +4,7 @@
   imports =
     [ 
     ./hardware-configuration.nix
+    ~/cfg/extra.nix
     ];
 
 # Диспетчер загрузки systemd-boot
