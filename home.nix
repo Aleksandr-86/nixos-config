@@ -7,7 +7,7 @@ in
 
 {
   imports = [
-    ../cfg/git.nix
+    ./submodules/git.nix
   ];
 
   home.username = "aleks";
