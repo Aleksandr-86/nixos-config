@@ -7,7 +7,7 @@ in
 
 {
   imports = [
-    ~/cfg/extra.nix
+    ../cfg/git.nix
   ];
 
   home.username = "aleks";
