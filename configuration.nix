@@ -1,21 +1,11 @@
 { config, lib, pkgs, ... }:
 
-# let 
-# home-manager = builtins.fetchTarball "https://github.com/nix-community/home-manager/archive/release-25.11.tar.gz";
-# in
-
 {
   imports =
     [ 
     ./hardware-configuration.nix
       ./submodules/extra.nix
-     # (import "${home-manager}/nixos")
     ];
-
-  # home-manager.useUserPackages = true;
-  # home-manager.useGlobalPkgs = true;
-  # home-manager.backupFileExtension = "backup";
-  # home-manager.users.aleks = import ./home.nix;
 
 # Диспетчер загрузки systemd-boot
   boot.loader.systemd-boot.enable = true;
