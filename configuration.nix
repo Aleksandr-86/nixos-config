@@ -11,12 +11,12 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   # Модуль ядра usb_storage
-  # boot.initrd.availableKernelModules = [ "usb_storage" ];
+  boot.initrd.availableKernelModules = [ "usb_storage" ];
 
-  # nixpkgs.config.allowUnfree = true;
-  # hardware.graphics.enable = true;
-  # services.xserver.videoDrivers = [ "nvidia" ];
-  # hardware.nvidia.open = true;
+  nixpkgs.config.allowUnfree = true;
+  hardware.graphics.enable = true;
+  services.xserver.videoDrivers = [ "nvidia" ];
+  hardware.nvidia.open = true;
 
   networking.hostName = "nixos";
 
