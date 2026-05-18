@@ -152,7 +152,7 @@
 # networking.firewall.allowedTCPPorts = [ ... ];
 # networking.firewall.allowedUDPPorts = [ ... ];
 # Отключение межсетевого экрана 
-# networking.firewall.enable = false;
+ networking.firewall.enable = false;
 
 # Подсистема Linux, обеспечивающая фильтрацию и классификацию сетевых пакетов
   networking.nftables.enable = true; 
