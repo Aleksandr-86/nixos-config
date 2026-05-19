@@ -10,13 +10,24 @@ in
     ./submodules/git.nix
   ];
 
+  nix = {
+    
+  };
+
   home.username = "aleks";
   home.homeDirectory = "/home/aleks";
   home.stateVersion = "25.11";
   programs.home-manager.enable = true;
 
-  programs.bash.enable = true;
+  programs.bash = {
+    enable = true;
+    bashrcExtra = ''
+      PS1="\w\[\e[38;2;166;227;161m\]# \[\e[0m\]"
+      '';
+  };
+
   programs.rofi.enable = true;
+  programs.vscode.enable = true;
 
 # home.file.".config/qtile".source = ./config/qtile;
   xdg.configFile."qtile" = {
@@ -30,8 +41,6 @@ in
     source = create_symlink "${dotfiles}/nvim/";
     recursive = true;
   };
-
-
 
   home.packages = with pkgs; [
 
@@ -56,8 +65,6 @@ in
 # Инструменты для веб разработки
       mkcert
       ];
-
-  programs.vscode.enable = true;
 
 #  programs.vscode = {
 #    enable = true;

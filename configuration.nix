@@ -138,7 +138,6 @@ security.pki.certificateFiles = [ ./certs/mkcert-ca.crt ];
     vim 
       wget
       alacritty
-      curl
   ];
 
 # Псевонимы команд
@@ -151,8 +150,14 @@ security.pki.certificateFiles = [ ./certs/mkcert-ca.crt ];
     fira-code
   ];
 
+  nix.settings = {
 # Экспериментальные функции системы управления пакетами
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+    experimental-features = [
+      "nix-command"
+        "flakes"
+    ];
+    warn-dirty = false;
+  };
 
 # Сетевая диагностика
   programs.mtr.enable = true;
