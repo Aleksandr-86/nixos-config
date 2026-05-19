@@ -1,3 +1,4 @@
 submodules/extra.nix
 submodules/git.nix
+certs/
 config/nvim/

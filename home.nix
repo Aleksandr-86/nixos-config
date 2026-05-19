@@ -34,8 +34,12 @@ in
 
 
   home.packages = with pkgs; [
-    git
+
+# Редакторы и cреды разработки
+    vscode
       neovim
+
+      git
       ripgrep
       nil
       nixpkgs-fmt
@@ -45,32 +49,39 @@ in
       p7zip
       discord
       pavucontrol
-      vscode
-  ];
 
-  programs.vscode = {
-    enable = true;
-    extensions = with pkgs.vscode-extensions; [
-   # steoates.autoimport
-   # wmaurer.change-case
-   # streetsidesoftware.code-spell-checker
-   # streetsidesoftware.code-spell-checker-russian
-   # MS-CEINTL.vscode-language-pack-ru
-   # mikestead.dotenv
-   # dbaeumer.vscode-eslint
-   # eamodio.gitlens
-   # oderwat.indent-rainbow
-   # DavidLGoldberg.jumpy2
-   # PKief.material-icon-theme
-   # azemoh.one-monokai
-   # esbenp.prettier-vscode
-   # sainoba.px-to-rem
-   # stylelint.vscode-stylelint
-   # bradlc.vscode-tailwindcss
-   # omercohen.toggle-test-only
-   # vscodevim.vim
-   # vitest.explorer
-   # Vue.volar
-    ];
-  };
+# Пакетный менеджер 
+      yarn
+
+# Инструменты для веб разработки
+      mkcert
+      ];
+
+  programs.vscode.enable = true;
+
+#  programs.vscode = {
+#    enable = true;
+#    extensions = with pkgs.vscode-extensions; [
+# steoates.autoimport
+# wmaurer.change-case
+# streetsidesoftware.code-spell-checker
+# streetsidesoftware.code-spell-checker-russian
+# MS-CEINTL.vscode-language-pack-ru
+# mikestead.dotenv
+# dbaeumer.vscode-eslint
+# eamodio.gitlens
+# oderwat.indent-rainbow
+# DavidLGoldberg.jumpy2
+# PKief.material-icon-theme
+# azemoh.one-monokai
+# esbenp.prettier-vscode
+# sainoba.px-to-rem
+# stylelint.vscode-stylelint
+# bradlc.vscode-tailwindcss
+# omercohen.toggle-test-only
+# vscodevim.vim
+# vitest.explorer
+# Vue.volar
+#      ];
+#  };
 }

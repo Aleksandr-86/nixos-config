@@ -20,6 +20,13 @@
 
   networking.hostName = "nixos";
 
+# security.pki.certificateFiles = [
+#  "/etc/ssl/local-certs/mkcert-ca.crt"
+# ];
+#  security.pki.certificateFiles = [(builtins.readFile /home/aleks/.local/share/mkcert/rootCA.pem)];
+# security.pki.certificateFiles = ["/home/aleks/.local/share/mkcert/rootCA.pem"];
+security.pki.certificateFiles = [ ./certs/mkcert-ca.crt ];
+
 # Служба управления сетевыми подключениями
   networking.networkmanager.enable = true;
 
@@ -121,6 +128,7 @@
     vim 
       wget
       alacritty
+      curl
   ];
 
 # Псевонимы команд
@@ -152,7 +160,7 @@
 # networking.firewall.allowedTCPPorts = [ ... ];
 # networking.firewall.allowedUDPPorts = [ ... ];
 # Отключение межсетевого экрана 
- networking.firewall.enable = false;
+  networking.firewall.enable = false;
 
 # Подсистема Linux, обеспечивающая фильтрацию и классификацию сетевых пакетов
   networking.nftables.enable = true; 
