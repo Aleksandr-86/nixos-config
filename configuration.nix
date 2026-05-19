@@ -79,6 +79,16 @@ security.pki.certificateFiles = [ ./certs/mkcert-ca.crt ];
     xkb.layout = "us,ru"; 
 # Комбинации клавиш для переключения раскладки клавиатур; замена местами клавиш Escape и Caps Lock
     xkb.options = "grp:alt_shift_toggle, caps:swapescape";
+    # BlankTime — время до отключения изображения (экран гаснет, но система работает)
+    # StandbyTime — время до перехода в режим энергосбережения с частичным отключением
+    # SuspendTime — время до перехода в режим глубококого энергосбережения (почти полного отключения)
+    # OffTime —  время до полного выключения экрана
+    serverFlagsSection = ''
+      Option "BlankTime" "0"
+      Option "StandbyTime" "0"
+      Option "SuspendTime" "0"
+      Option "OffTime" "0"
+      '';
   };
 
 # Служба печати
