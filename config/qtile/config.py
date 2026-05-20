@@ -55,6 +55,7 @@ keys = [
     # Key([mod, "shift"], "e", lazy.window.togroup(), desc="Переместить окно на другой экран"),
     #     Key([mod, "control"], "e", lazy.function(lambda qtile: qtile.current_window.tostack(qtile.screens[(qtile.current_screen.index + 1) % len(qtile.screens)])),
     #     desc="Переместить окно на следующий экран и сфокусировать его"),
+    Key([mod], "r", lazy.spawn("rofi -show drun"), desc="Запустить Rofi (drun)"),
     Key([mod], "b", lazy.hide_show_bar(position="top"), desc="Hide show bar"), # сокрытие информационной панели
     Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
     Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
