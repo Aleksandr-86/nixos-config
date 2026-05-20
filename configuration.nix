@@ -142,6 +142,7 @@ security.pki.certificateFiles = [ ./certs/mkcert-ca.crt ];
   environment.systemPackages = with pkgs; [
     vim 
       wget
+      ntfs3g
   ];
 
 # Псевонимы команд
