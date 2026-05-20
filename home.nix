@@ -10,10 +10,6 @@ in
     ./submodules/git.nix
   ];
 
-  nix = {
-    
-  };
-
   home.username = "aleks";
   home.homeDirectory = "/home/aleks";
   home.stateVersion = "25.11";
@@ -28,6 +24,22 @@ in
 
   programs.rofi.enable = true;
   programs.vscode.enable = true;
+
+  programs.alacritty = {
+    enable = true;
+    settings = {
+      window.padding = { x = 8; y = 8; };
+      font = {
+        size = 14.0;
+      };
+      colors = {
+        primary = {
+          background = "0x1e1e1e";
+          foreground = "0xd4d4d4";
+        };
+      };
+    };
+  };
 
 # home.file.".config/qtile".source = ./config/qtile;
   xdg.configFile."qtile" = {
@@ -48,6 +60,10 @@ in
     vscode
       neovim
 
+# Контейнеризация
+# docker
+      docker-compose
+
       git
       ripgrep
       nil
@@ -64,6 +80,9 @@ in
 
 # Инструменты для веб разработки
       mkcert
+
+# Снимки экрана
+      flameshot
       ];
 
 #  programs.vscode = {

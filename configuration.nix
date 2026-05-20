@@ -20,6 +20,11 @@
 
   networking.hostName = "nixos";
 
+  virtualisation.docker = {
+    enable = true;
+    enableOnBoot = true;
+  };
+
 # security.pki.certificateFiles = [
 #  "/etc/ssl/local-certs/mkcert-ca.crt"
 # ];
@@ -137,7 +142,6 @@ security.pki.certificateFiles = [ ./certs/mkcert-ca.crt ];
   environment.systemPackages = with pkgs; [
     vim 
       wget
-      alacritty
   ];
 
 # Псевонимы команд
