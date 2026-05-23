@@ -10,10 +10,54 @@ in
     ./submodules/git.nix
   ];
 
+  home.packages = with pkgs; [
+# Редакторы и среды разработки
+    vscode
+      neovim
+# Контейнеризация
+      docker-compose
+# Система контроля версий
+      git
+# Пакетный менеджер 
+      yarn
+# Создание SSL-сертификатов 
+      mkcert
+# Снимки экрана
+      flameshot
+# Музыкальный проигрыватель
+      mpd
+
+      ripgrep
+      nil
+      nixpkgs-fmt
+      nodejs
+      gcc
+      mpv
+      p7zip
+      discord
+      pavucontrol
+];
+
   home.username = "aleks";
   home.homeDirectory = "/home/aleks";
   home.stateVersion = "25.11";
   programs.home-manager.enable = true;
+
+  services = {
+    mpd = {
+      enable = true;
+      musicDirectory = "/mnt/shared/Музыка";
+      network = {
+        startWhenNeeded = true;
+      };
+      extraConfig = ''
+        audio_output {
+          type "pipewire"
+          name "My PipeWire Output"
+        }
+      '';
+    };
+  };
 
   programs.bash = {
     enable = true;
@@ -54,60 +98,5 @@ in
     recursive = true;
   };
 
-  home.packages = with pkgs; [
 
-# Редакторы и cреды разработки
-    vscode
-      neovim
-
-# Контейнеризация
-# docker
-      docker-compose
-
-      git
-      ripgrep
-      nil
-      nixpkgs-fmt
-      nodejs
-      gcc
-      mpv
-      p7zip
-      discord
-      pavucontrol
-
-# Пакетный менеджер 
-      yarn
-
-# Инструменты для веб разработки
-      mkcert
-
-# Снимки экрана
-      flameshot
-      ];
-
-#  programs.vscode = {
-#    enable = true;
-#    extensions = with pkgs.vscode-extensions; [
-# steoates.autoimport
-# wmaurer.change-case
-# streetsidesoftware.code-spell-checker
-# streetsidesoftware.code-spell-checker-russian
-# MS-CEINTL.vscode-language-pack-ru
-# mikestead.dotenv
-# dbaeumer.vscode-eslint
-# eamodio.gitlens
-# oderwat.indent-rainbow
-# DavidLGoldberg.jumpy2
-# PKief.material-icon-theme
-# azemoh.one-monokai
-# esbenp.prettier-vscode
-# sainoba.px-to-rem
-# stylelint.vscode-stylelint
-# bradlc.vscode-tailwindcss
-# omercohen.toggle-test-only
-# vscodevim.vim
-# vitest.explorer
-# Vue.volar
-#      ];
-#  };
 }
