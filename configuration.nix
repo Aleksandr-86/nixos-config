@@ -22,7 +22,7 @@
 
   virtualisation.docker = {
     enable = true;
-    enableOnBoot = true;
+    enableOnBoot = false;
   };
 
 # security.pki.certificateFiles = [

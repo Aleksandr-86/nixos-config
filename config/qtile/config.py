@@ -152,7 +152,7 @@ colors = [
     ["#a9b1d6", "#a9b1d6"],  # fg        (primary.foreground)
     ["#32344a", "#32344a"],  # color01   (normal.black)
     ["#f7768e", "#f7768e"],  # color02   (normal.red)
-    ["#9ece6a", "#9ece6a"],  # color03   (normal.green)
+    ["#909d63", "#909d63"],  # color03   (normal.green)
     ["#e0af68", "#e0af68"],  # color04   (normal.yellow)
     ["#7aa2f7", "#7aa2f7"],  # color05   (normal.blue)
     ["#ad8ee6", "#ad8ee6"],  # color06   (normal.magenta)

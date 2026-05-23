@@ -62,7 +62,7 @@ in
   programs.bash = {
     enable = true;
     bashrcExtra = ''
-      PS1="\w\[\e[38;2;166;227;161m\]# \[\e[0m\]"
+      PS1="\w\[\e[38;2;144;157;99m\]# \[\e[0m\]"
       '';
   };
 
@@ -97,6 +97,4 @@ in
     source = create_symlink "${dotfiles}/nvim/";
     recursive = true;
   };
-
-
 }
