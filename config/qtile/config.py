@@ -330,7 +330,7 @@ screens = [
                 ),
                 sep,
                 widget.Clock(
-                    foreground = colors[4],
+                    foreground = "#1abc9c",
                     padding = 8, 
                     mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn('notify-date')},
                     format = "%H:%M",

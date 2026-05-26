@@ -63,7 +63,7 @@ in
   programs.bash = {
     enable = true;
     bashrcExtra = ''
-      PS1="\w\[\e[38;2;144;157;99m\]# \[\e[0m\]"
+      PS1="\w\[\e[38;2;26;188;156m\]# \[\e[0m\]"
       '';
   };
 
