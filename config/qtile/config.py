@@ -55,6 +55,9 @@ keys = [
     # Key([mod, "shift"], "e", lazy.window.togroup(), desc="Переместить окно на другой экран"),
     #     Key([mod, "control"], "e", lazy.function(lambda qtile: qtile.current_window.tostack(qtile.screens[(qtile.current_screen.index + 1) % len(qtile.screens)])),
     #     desc="Переместить окно на следующий экран и сфокусировать его"),
+    Key([], "XF86AudioPlay", lazy.spawn("rmpc togglepause"), desc="Переключение паузы и проигрывания"),
+    Key([], "XF86AudioLowerVolume", lazy.spawn("wpctl set-volume @DEFAULT_SINK@ 0.1-"), desc="Уменьшение громкости"),
+    Key([], "XF86AudioRaiseVolume", lazy.spawn("wpctl set-volume @DEFAULT_SINK@ 0.1+"), desc="Увеличение громкости"),
     Key([mod], "r", lazy.spawn("rofi -show drun"), desc="Запустить Rofi (drun)"),
     Key([mod], "b", lazy.hide_show_bar(position="top"), desc="Hide show bar"), # сокрытие информационной панели
     Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
