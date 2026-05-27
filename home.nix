@@ -12,7 +12,7 @@ in
 
   home.packages = with pkgs; [
 # Редактор
-      neovim
+    neovim
 # Контейнеризация
       docker-compose
 # Система контроля версий
@@ -23,41 +23,47 @@ in
       mkcert
 # Снимки экрана
       flameshot
-# Daemon музыкального проигрывателя
-      mpd
 # Музыкальный проигрыватель (терминал-ориентированный клиент для MPD)
       rmpc
+
+# Набор компиляторов
+      gcc
+
+# Компилятор Rust
+      rustc
+
+# Менеджер пакетов и система сборки Rust 
+      cargo
 
       ripgrep
       nil
       nixpkgs-fmt
       nodejs
-      gcc
       mpv
       p7zip
       discord
       pavucontrol
-];
+      ];
 
   home.username = "aleks";
   home.homeDirectory = "/home/aleks";
   home.stateVersion = "25.11";
   programs.home-manager.enable = true;
 
-  services = {
-    mpd = {
-      enable = true;
-      musicDirectory = "/mnt/shared/Музыка";
-      network = {
-        startWhenNeeded = true;
-      };
-      extraConfig = ''
-        audio_output {
-          type "pipewire"
-          name "My PipeWire Output"
-        }
-      '';
+# Daemon музыкального проигрывателя
+  services.mpd = {
+    enable = true;
+    musicDirectory = "/mnt/shared/Музыка";
+    playlistDirectory = "/home/aleks/.config/mpd/playlists";
+    network = {
+      startWhenNeeded = true;
     };
+    extraConfig = ''
+      audio_output {
+        type "pipewire"
+          name "My PipeWire Output"
+      }
+    '';
   };
 
   programs.bash = {
