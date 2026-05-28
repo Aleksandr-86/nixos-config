@@ -49,12 +49,23 @@ def autostart():
 def start_once():
     autostart()
 
+# Функцию проигрывания предыдущей дорожки проигрывателя RMPC
+def run_rmpc_prev():
+    subprocess.run(["rmpc", "prev"])
+
+# Функцию проигрывания следующей дорожки проигрывателя RMPC
+def run_rmpc_next():
+    subprocess.run(["rmpc", "next"])
+
+
+
 myTerm = "alacritty" 
 
 keys = [
     # Key([mod, "shift"], "e", lazy.window.togroup(), desc="Переместить окно на другой экран"),
     #     Key([mod, "control"], "e", lazy.function(lambda qtile: qtile.current_window.tostack(qtile.screens[(qtile.current_screen.index + 1) % len(qtile.screens)])),
     #     desc="Переместить окно на следующий экран и сфокусировать его"),
+    # Key([mod], "Right", lazy.window.toScreen(), lazy.next_screen(), desc="Переместить окно на левый экран"),
     Key([], "XF86AudioPlay", lazy.spawn("rmpc togglepause"), desc="Переключение паузы и проигрывания"),
     Key([], "XF86AudioLowerVolume", lazy.spawn("wpctl set-volume @DEFAULT_SINK@ 0.1-"), desc="Уменьшение громкости"),
     Key([], "XF86AudioRaiseVolume", lazy.spawn("wpctl set-volume @DEFAULT_SINK@ 0.1+"), desc="Увеличение громкости"),
@@ -249,12 +260,36 @@ screens = [
                 #    scale = "False",
                 #    mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn("qtilekeys-yad")},
                 # ),
-               # widget.ThermalSensor(
-               #     foreground = colors[9],
-               #     tag_sensor='amdgpu-pci-0300', # Укажите свой датчик из команды sensors
-               #     fmt='ГП: {}',
-               # ),
-               # sep,
+                # widget.ThermalSensor(
+                #     foreground = colors[9],
+                #     tag_sensor='amdgpu-pci-0300', # Укажите свой датчик из команды sensors
+                #     fmt='ГП: {}',
+                # ),
+                widget.TextBox(
+                    text="◀",
+                    mouse_callbacks={
+                        "Button1": lambda: subprocess.run(["rmpc", "prev"])
+                    },
+                    foreground = colors[9], 
+                    padding = 8,
+                ),
+                widget.TextBox(
+                    text="■",
+                    mouse_callbacks={
+                        "Button1": lambda: subprocess.run(["rmpc", "togglepause"])
+                    },
+                    foreground = colors[9], 
+                    padding = 8,
+                ),
+                widget.TextBox(
+                    text="▶",
+                    mouse_callbacks={
+                        "Button1": lambda: subprocess.run(["rmpc", "next"])
+                    },
+                    foreground = colors[9], 
+                    padding = 8,
+                ),
+                sep,
                 widget.CPU(
                     update_interval = 2,
                     foreground = colors[9],
@@ -270,7 +305,7 @@ screens = [
                     update_interval=2,              # Интервал обновления в сек
                 ),
                 widget.Spacer(
-                   length = 6, 
+                    length = 6, 
                 ),
                 sep,
                 widget.Memory(
