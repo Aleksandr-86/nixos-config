@@ -9,45 +9,20 @@ import subprocess
 mod = "mod4"
 terminal = guess_terminal()
 
-# Получение кратного имени раскладки (ru или en) 
-# def get_keyboard_layout():
-#    result = subprocess.run(
-#        ['xset', '-q'],
-#        capture_output=True,
-#        text=True
-#    )
-#    output = result.stdout
-#
-#    # Извлечение LED mask с помощью grep и awk через Python
-#    for line in output.splitlines():
-#        if "LED mask" in line:
-#            # Разбитие строки на части и взятие последнего поля
-#            led_mask = line.split()[-1]
-#            break
-#    else:
-#        led_mask = "00000000"  # значение по умолчанию, если не найдено
-#
-#    if led_mask == "00000000":
-#        return f'<span foreground="{colors[6][0]}">А</span>'
-#    else:
-#        return f'<span foreground="{colors[3][0]}">Р</span>'
-
 # Настройка положения экранов между собой
 def autostart():
     subprocess.call([
         "xrandr",
-        "--output", "DP-0", "--off", 
         "--output", "DP-1", "--mode", "1920x1080", "--pos", "0x0", "--rotate", "normal",
         "--output", "HDMI-0", "--mode", "2560x1440", "--pos", "1920x0", "--rotate", "normal",
-        "--output", "DP-2", "--off", 
-        "--output", "DP-3", "--off", 
-        "--output", "DP-4", "--off", 
-        "--output", "DP-5", "--off", 
     ])
 
 @hook.subscribe.startup_once
 def start_once():
     autostart()
+
+# Отключение смены фокуса при наведении мыши
+follow_mouse_focus = False
 
 # Функцию проигрывания предыдущей дорожки проигрывателя RMPC
 def run_rmpc_prev():
@@ -57,18 +32,20 @@ def run_rmpc_prev():
 def run_rmpc_next():
     subprocess.run(["rmpc", "next"])
 
-
-
 myTerm = "alacritty" 
 
 keys = [
     # Key([mod, "shift"], "e", lazy.window.togroup(), desc="Переместить окно на другой экран"),
-    #     Key([mod, "control"], "e", lazy.function(lambda qtile: qtile.current_window.tostack(qtile.screens[(qtile.current_screen.index + 1) % len(qtile.screens)])),
-    #     desc="Переместить окно на следующий экран и сфокусировать его"),
+    # Key([mod], "Right", lazy.next_screen(1), desc="Переместить фокус на правый экран"),
+    # Key([mod], "Left", lazy.next_screen(0), desc="Переместить фокус на левый экран"),
     # Key([mod], "Right", lazy.window.toScreen(), lazy.next_screen(), desc="Переместить окно на левый экран"),
+    # Key([mod], "Right", lazy.function(lambda qtile: qtile.current_window.cmd_toscreen((qtile.screens.index(qtile.current_screen) + 1) % len(qtile.screens))), desc="Переместить окно на следующий экран"),
     Key([], "XF86AudioPlay", lazy.spawn("rmpc togglepause"), desc="Переключение паузы и проигрывания"),
     Key([], "XF86AudioLowerVolume", lazy.spawn("wpctl set-volume @DEFAULT_SINK@ 0.1-"), desc="Уменьшение громкости"),
     Key([], "XF86AudioRaiseVolume", lazy.spawn("wpctl set-volume @DEFAULT_SINK@ 0.1+"), desc="Увеличение громкости"),
+    Key([mod], "o", lazy.next_screen(), desc="Переместить фокус на другой экран"),
+    Key([mod], "i", lazy.function(lambda qtile: qtile.current_window.cmd_toscreen(1)), desc="Переместить окно на правый экран"),
+    Key([mod], "u", lazy.function(lambda qtile: qtile.current_window.cmd_toscreen(0)), desc="Переместить окно на левый экран"),
     Key([mod], "r", lazy.spawn("rofi -show drun"), desc="Запустить Rofi (drun)"),
     Key([mod], "b", lazy.hide_show_bar(position="top"), desc="Hide show bar"), # сокрытие информационной панели
     Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
@@ -236,9 +213,12 @@ screens = [
                 widget.WindowName(
                     foreground = colors[9],
                     padding = 8,
-                    max_chars = 100
+                    # max_chars = 200
                 ),
-                widget.Spacer(stretch=True),
+                widget.Spacer(
+                    length = 100, 
+                ),
+                # widget.Spacer(stretch=True),
                 # widget.Prompt(
                 #     # font = "",
                 #     fontsize=14,
@@ -265,6 +245,18 @@ screens = [
                 #     tag_sensor='amdgpu-pci-0300', # Укажите свой датчик из команды sensors
                 #     fmt='ГП: {}',
                 # ),
+                # widget.Volume(
+                #    fontsize=14,
+                #    fmt="🔊 {}",
+                #    mouse_callbacks={'Button3': lambda: qtile.cmd_spawn('pavucontrol')},
+                #    volume_app="wpctl",
+                #    get_volume_command="wpctl get-volume @DEFAULT_AUDIO_SINK@",
+                #    check_mute_command="wpctl get-mute @DEFAULT_AUDIO_SINK@",
+                #    mute_command="wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+                #    volume_up_command="wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+",
+                #    volume_down_command="wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
+                # ),
+                # sep,
                 widget.TextBox(
                     text="◀",
                     mouse_callbacks={
@@ -291,7 +283,7 @@ screens = [
                 ),
                 sep,
                 widget.CPU(
-                    update_interval = 2,
+                    update_interval = 3,
                     foreground = colors[9],
                     padding = 8, 
                     mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn(myTerm + ' -e btop')},
@@ -302,14 +294,14 @@ screens = [
                     foreground = colors[9],
                     format='{temp:.0f}°', # Формат отображения
                     tag_sensor='Package id 0',      # Датчик (опционально, зависит от CPU)
-                    update_interval=2,              # Интервал обновления в сек
+                    update_interval = 3,              # Интервал обновления в сек
                 ),
                 widget.Spacer(
                     length = 6, 
                 ),
                 sep,
                 widget.Memory(
-                    update_interval = 2,
+                    update_interval = 3,
                     foreground = colors[9],
                     padding = 8, 
                     mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn(myTerm + ' -e btop')},
@@ -318,7 +310,7 @@ screens = [
                 ),
                 sep,
                 widget.DF(
-                    update_interval = 60,
+                    update_interval = 120,
                     foreground = colors[9],
                     padding = 8, 
                     mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn('notify-disk')},
@@ -354,11 +346,6 @@ screens = [
                 #    },
                 #),
                 #sep,
-                # widget.Volume(
-                #     foreground = colors[7],
-                #     padding = 8, 
-                #     fmt = 'Звук: {}',
-                # ),
                 sep,
                 widget.Clock(
                     foreground = colors[9],
